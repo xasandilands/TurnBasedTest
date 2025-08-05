@@ -9,7 +9,7 @@ public class BattleSystem : MonoBehaviour
     public BattleState State;
 
     [SerializeField] public TextMeshProUGUI EnemyName;
-    [SerializeField] public TextMeshProUGUI PlayerName;
+    
 
     public GameObject PlayerPf;
     public GameObject EnemyPf;
@@ -36,6 +36,6 @@ public class BattleSystem : MonoBehaviour
        EnemyU = enemyOb.GetComponent<Unit>();
 
         EnemyName.text = EnemyU.UnitName + " Lvl." + EnemyU.UnitLvl;
-        PlayerName.text = PlayerU.UnitName + " Lvl." + PlayerU.UnitLvl;
+        
     }
 }
