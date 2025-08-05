@@ -9,7 +9,9 @@ public class BattleSystem : MonoBehaviour
     public BattleState State;
 
     [SerializeField] public TextMeshProUGUI EnemyName;
-    
+
+    public HudControl PlayerHUD;
+  //public HudControl EnemyHUD;
 
     public GameObject PlayerPf;
     public GameObject EnemyPf;
@@ -34,6 +36,8 @@ public class BattleSystem : MonoBehaviour
 
        PlayerU = playerOb.GetComponent<Unit>();
        EnemyU = enemyOb.GetComponent<Unit>();
+
+        PlayerHUD.SetHUD(PlayerU);
 
         EnemyName.text = EnemyU.UnitName + " Lvl." + EnemyU.UnitLvl;
         

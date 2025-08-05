@@ -3,21 +3,13 @@ using UnityEngine.UI;
 using TMPro;
 public class HudControl:MonoBehaviour 
 {
+    [SerializeField] public TextMeshProUGUI NameLvl;
+    public Slider HPslider;
 
-    [SerializeField] public TextMeshProUGUI UnitName;
-    [SerializeField] public TextMeshProUGUI Health;
-
-
-    public Unit UnitPf;
-
-    void Start()
+    public void SetHUD(Unit unit)
     {
-        HUDSpawn();
-    }
-
-    void HUDSpawn()
-    {
-        UnitName.text = UnitPf.UnitName + " Lvl." + UnitPf.UnitLvl;
-        Health.text = UnitPf.MaxHealth + "/" + UnitPf.MaxHealth;
+        NameLvl.text = unit.UnitName + " Lvl." + unit.UnitLvl;
+        HPslider.maxValue = unit.MaxHealth;
+        HPslider.value = unit.CurHealth;
     }
 }
