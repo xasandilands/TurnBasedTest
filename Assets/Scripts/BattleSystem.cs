@@ -1,11 +1,14 @@
 
 using JetBrains.Annotations;
 using UnityEngine;
-
+using UnityEngine.UI;
+using TMPro;
 public enum BattleState { Start, PlayerTurn, EnemyTurn, Win, Lose}
 public class BattleSystem : MonoBehaviour
 {
     public BattleState State;
+
+    [SerializeField] public TextMeshProUGUI EnemyName;
 
     public GameObject PlayerPf;
     public GameObject EnemyPf;
@@ -30,7 +33,7 @@ public class BattleSystem : MonoBehaviour
 
        PlayerU = playerOb.GetComponent<Unit>();
        EnemyU = enemyOb.GetComponent<Unit>();
-       
-       // EnemyU.unitName
+
+        EnemyName.text = EnemyU.UnitName;
     }
 }
