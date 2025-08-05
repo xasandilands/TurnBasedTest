@@ -7,11 +7,15 @@ public class BattleSystem : MonoBehaviour
 {
     public BattleState State;
 
-    public GameObject Player;
-    public GameObject Enemy;
+    public GameObject PlayerPf;
+    public GameObject EnemyPf;
 
     public Transform PlayerPos;
     public Transform EnemyPos;
+
+    Unit PlayerU;
+    Unit EnemyU;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -21,7 +25,12 @@ public class BattleSystem : MonoBehaviour
 
     void SetUpBattle()
     {
-        Instantiate(Player, PlayerPos);
-        Instantiate(Enemy, EnemyPos);
+       GameObject playerOb = Instantiate(PlayerPf, PlayerPos);
+       GameObject enemyOb = Instantiate(EnemyPf, EnemyPos);
+
+       PlayerU = playerOb.GetComponent<Unit>();
+       EnemyU = enemyOb.GetComponent<Unit>();
+       
+       // EnemyU.unitName
     }
 }
