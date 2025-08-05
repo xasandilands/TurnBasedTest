@@ -5,6 +5,7 @@ public class HudControl:MonoBehaviour
 {
 
     [SerializeField] public TextMeshProUGUI UnitName;
+    [SerializeField] public TextMeshProUGUI Health;
 
 
     public Unit UnitPf;
@@ -17,5 +18,6 @@ public class HudControl:MonoBehaviour
     void HUDSpawn()
     {
         UnitName.text = UnitPf.UnitName + " Lvl." + UnitPf.UnitLvl;
+        Health.text = UnitPf.MaxHealth + "/" + UnitPf.MaxHealth;
     }
 }
