@@ -23,10 +23,13 @@ public class BattleSystem : MonoBehaviour
     Unit PlayerU;
     Unit EnemyU;
 
+    public bool IsOver;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         State = BattleState.Start;
+        IsOver = false; 
         StartCoroutine(SetUpBattle());
     }
 
@@ -53,8 +56,35 @@ public class BattleSystem : MonoBehaviour
             State = BattleState.EnemyTurn;
         }
 
-        PlayerTurn();
+        while(IsOver==false)
+        {
+            CheckState();
+        }
+        
     }
+
+    public void CheckState()
+    {
+        switch(State)
+        {
+            case BattleState.PlayerTurn:
+                PlayerTurn();
+                break;
+
+            case BattleState.EnemyTurn:
+                EnemyTurn();
+                break;
+
+            case BattleState.Win:
+                EndBattleWin();
+                break;
+
+            case BattleState.Lose:
+                EndBattleLose();
+                break;
+        }
+    }
+
     IEnumerator PlayerAttack()
     {
         bool IsDead = EnemyU.TakeDmg(PlayerU.Damage);
@@ -93,17 +123,18 @@ public class BattleSystem : MonoBehaviour
             //Enemy defend
         }
     }
-    void EndBattle()
+    void EndBattleWin()
     {
-        if(State == BattleState.Win)
-        {
-            UItext.text = "You have won!";
-        }
-        else
-        {
-            UItext.text = "You lost...";
-        }
+        UItext.text = "You have won!";
+        IsOver = true;
     }
+
+    void EndBattleLose()
+    {
+        UItext.text = "You lost...";
+        IsOver = true;
+    }
+
     public void OnAttack()
     {
         if (State != BattleState.PlayerTurn)
