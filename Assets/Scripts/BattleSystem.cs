@@ -106,10 +106,12 @@ public class BattleSystem : MonoBehaviour
     }
     public void OnAttack()
     {
-        if (State == BattleState.PlayerTurn)
+        if (State != BattleState.PlayerTurn)
         {
             return;
         }
+
+        StartCoroutine(PlayerAttack());
 
 
     }
