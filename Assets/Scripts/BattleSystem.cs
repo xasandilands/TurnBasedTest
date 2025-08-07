@@ -23,13 +23,10 @@ public class BattleSystem : MonoBehaviour
     Unit PlayerU;
     Unit EnemyU;
 
-    public bool IsOver;
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         State = BattleState.Start;
-        IsOver = false; 
         StartCoroutine(SetUpBattle());
     }
 
@@ -50,39 +47,21 @@ public class BattleSystem : MonoBehaviour
         if (PlayerU.Speed >= EnemyU.Speed)
         {
             State = BattleState.PlayerTurn;
+            PlayerTurn();
         }
         else
         {
             State = BattleState.EnemyTurn;
+            EnemyTurn();
         }
 
-        while(IsOver==false)
-        {
-            CheckState();
-        }
+      
         
     }
 
-    public void CheckState()
+    void PlayerTurn()
     {
-        switch(State)
-        {
-            case BattleState.PlayerTurn:
-                PlayerTurn();
-                break;
-
-            case BattleState.EnemyTurn:
-                EnemyTurn();
-                break;
-
-            case BattleState.Win:
-                EndBattleWin();
-                break;
-
-            case BattleState.Lose:
-                EndBattleLose();
-                break;
-        }
+        UItext.text = "Choose your action this turn";
     }
 
     IEnumerator PlayerAttack()
@@ -91,28 +70,39 @@ public class BattleSystem : MonoBehaviour
         UItext.text = "Attack has hit!";
 
         yield return new WaitForSeconds(2);
+        if(EnemyU.IsGuarding)
+        {
+            UItext.text = EnemyU.UnitName + " braced for the attack!";
+            yield return new WaitForSeconds(2);
+        }
 
         EnemyHUD.HpUpdate(EnemyU.CurHealth);
         if (IsDead)
         {
             State = BattleState.Win;
+            EndBattleWin();
         }
         else
         {
             State = BattleState.EnemyTurn;
+            EnemyTurn();
+
         }
     }
 
-    void PlayerTurn()
+    IEnumerator PlayerGuard()
     {
-        UItext.text = "Choose your action this turn";
+        PlayerU.IsGuarding = true;
+        yield return new WaitForSeconds(2);
+
+        UItext.text = "You Brace yourself";
     }
 
     void EnemyTurn()
     {
         if(PlayerU.CurHealth > PlayerU.MaxHealth/2 || EnemyU.CurHealth > EnemyU.MaxHealth/2)
         {
-            //enemy attack
+            StartCoroutine(EnemyAttack());
         }
         else if(EnemyU.CurHealth < EnemyU.MaxHealth/2)
         {
@@ -123,16 +113,35 @@ public class BattleSystem : MonoBehaviour
             //Enemy defend
         }
     }
+
+    IEnumerator EnemyAttack()
+    {
+        bool IsDead = PlayerU.TakeDmg(EnemyU.Damage);
+        UItext.text = EnemyU.UnitName + " Attacks!";
+
+        yield return new WaitForSeconds(2);
+
+        PlayerHUD.HpUpdate(PlayerU.CurHealth);
+        if (IsDead)
+        {
+            State = BattleState.Lose;
+        }
+        else
+        {
+            State = BattleState.PlayerTurn;
+            PlayerTurn();
+        }
+    }
     void EndBattleWin()
     {
         UItext.text = "You have won!";
-        IsOver = true;
+       
     }
 
     void EndBattleLose()
     {
         UItext.text = "You lost...";
-        IsOver = true;
+        
     }
 
     public void OnAttack()
@@ -143,7 +152,15 @@ public class BattleSystem : MonoBehaviour
         }
 
         StartCoroutine(PlayerAttack());
+    }
 
+    public void OnGuard()
+    {
+        if(State != BattleState.PlayerTurn)
+        {
+            return;
+        }
 
+        StartCoroutine (PlayerGuard());
     }
 }

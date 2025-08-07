@@ -12,10 +12,17 @@ public class Unit : MonoBehaviour
     public int Healing;
 
     public int MaxHealth;
-    public int CurHealth;//current health
+    public int CurHealth;
+
+    public bool IsGuarding;
 
     public bool TakeDmg(int dmg)
     {
+        if (IsGuarding)
+        {
+            CurHealth -= dmg / 2;
+        }
+
         CurHealth -= dmg;
         
         if (CurHealth <= 0 )

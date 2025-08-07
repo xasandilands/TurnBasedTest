@@ -1548,7 +1548,7 @@ GameObject:
   - component: {fileID: 273059690}
   - component: {fileID: 273059689}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Guard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1617,7 +1617,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 273059690}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 122386591}
+        m_TargetAssemblyTypeName: BattleSystem, Assembly-CSharp
+        m_MethodName: OnGuard
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &273059690
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5134,7 +5146,7 @@ GameObject:
   - component: {fileID: 1431981408}
   - component: {fileID: 1431981407}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Attack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5354,7 +5366,7 @@ GameObject:
   - component: {fileID: 1536813732}
   - component: {fileID: 1536813731}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Heal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
