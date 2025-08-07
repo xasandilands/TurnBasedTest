@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections;
+using Unity.VisualScripting;
 public enum BattleState { Start, PlayerTurn, EnemyTurn, Win, Lose}
 public class BattleSystem : MonoBehaviour
 {
@@ -96,6 +97,33 @@ public class BattleSystem : MonoBehaviour
         yield return new WaitForSeconds(2);
 
         UItext.text = "You Brace yourself";
+
+        EnemyTurn();
+    }
+
+    IEnumerator PlayerHeal()
+    {
+        if (PlayerU.Potions <= 0)
+        {
+            UItext.text = "You have no potions left!";
+            yield return new WaitForSeconds(1);
+            PlayerTurn();
+        }
+        else
+        {
+            bool IsMax = PlayerU.heal();
+
+            if (!IsMax)
+            {
+                UItext.text = "You are already at full HP!";
+                yield return new WaitForSeconds(1);
+                PlayerTurn();
+            }
+            else
+            {
+                EnemyTurn();
+            }
+        }
     }
 
     void EnemyTurn()
@@ -162,5 +190,15 @@ public class BattleSystem : MonoBehaviour
         }
 
         StartCoroutine (PlayerGuard());
+    }
+
+    public void OnHeal()
+    {
+        if (State != BattleState.PlayerTurn)
+        {
+            return;
+        }
+
+        StartCoroutine(PlayerHeal());
     }
 }

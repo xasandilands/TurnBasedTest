@@ -34,4 +34,19 @@ public class Unit : MonoBehaviour
             return false;
         }
     }
+
+    public bool heal()
+    {
+        if (CurHealth == MaxHealth)
+        {
+            return false;
+        }
+
+        CurHealth += Healing;
+        if (CurHealth > MaxHealth)
+        {
+            CurHealth = MaxHealth;
+        }
+        return true;
+    }
 }
