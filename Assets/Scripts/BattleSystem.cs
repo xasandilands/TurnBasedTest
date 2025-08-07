@@ -94,9 +94,8 @@ public class BattleSystem : MonoBehaviour
     IEnumerator PlayerGuard()
     {
         PlayerU.IsGuarding = true;
-        yield return new WaitForSeconds(2);
-
         UItext.text = "You Brace yourself";
+        yield return new WaitForSeconds(2);
 
         EnemyTurn();
     }
@@ -121,6 +120,8 @@ public class BattleSystem : MonoBehaviour
             }
             else
             {
+                UItext.text = "You used a potion to heal yourself!";
+                yield return new WaitForSeconds(2);
                 EnemyTurn();
             }
         }
@@ -128,6 +129,7 @@ public class BattleSystem : MonoBehaviour
 
     void EnemyTurn()
     {
+
         if(PlayerU.CurHealth > PlayerU.MaxHealth/2 || EnemyU.CurHealth > EnemyU.MaxHealth/2)
         {
             StartCoroutine(EnemyAttack());
