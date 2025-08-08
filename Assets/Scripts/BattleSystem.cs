@@ -78,6 +78,7 @@ public class BattleSystem : MonoBehaviour
         }
 
         EnemyHUD.HpUpdate(EnemyU.CurHealth);
+        EnemyHUD.SetHUD(EnemyU);
         if (IsDead)
         {
             State = BattleState.Win;
@@ -112,7 +113,7 @@ public class BattleSystem : MonoBehaviour
         {
             bool IsMax = PlayerU.heal();
 
-            if (!IsMax)
+            if (IsMax)
             {
                 UItext.text = "You are already at full HP!";
                 yield return new WaitForSeconds(1);
@@ -136,11 +137,11 @@ public class BattleSystem : MonoBehaviour
         }
         else if(EnemyU.CurHealth < EnemyU.MaxHealth/2)
         {
-            //enemy heal
+            StartCoroutine(EnemyHeal());
         }
         else if(EnemyU.CurHealth < EnemyU.MaxHealth/2 && EnemyU.Potions == 0)
         {
-            //Enemy defend
+            StartCoroutine(EnemyGuard());
         }
     }
 
@@ -152,6 +153,7 @@ public class BattleSystem : MonoBehaviour
         yield return new WaitForSeconds(2);
 
         PlayerHUD.HpUpdate(PlayerU.CurHealth);
+        PlayerHUD.SetHUD(PlayerU);
         if (IsDead)
         {
             State = BattleState.Lose;
@@ -162,16 +164,42 @@ public class BattleSystem : MonoBehaviour
             PlayerTurn();
         }
     }
+
+    IEnumerator EnemyGuard()
+    {
+        EnemyU.IsGuarding = true;
+        UItext.text = EnemyU.UnitName + " Braces";
+        yield return new WaitForSeconds(2);
+
+        PlayerTurn();
+    }
+
+    IEnumerator EnemyHeal()
+    {
+        bool IsMax = EnemyU.heal();
+        if(IsMax)
+        {
+            UItext.text = EnemyU.UnitName + " Tries to heal but is at full hp!";
+            yield return new WaitForSeconds(2);
+            EnemyTurn();
+        }
+
+        UItext.text = EnemyU.UnitName + " uses a potion to heal";
+        yield return new WaitForSeconds(2);
+        PlayerTurn();
+    }
+
     void EndBattleWin()
     {
         UItext.text = "You have won!";
-       
+        //add player EXP
+        //end game
     }
 
     void EndBattleLose()
     {
         UItext.text = "You lost...";
-        
+        //prompt player to try again
     }
 
     public void OnAttack()

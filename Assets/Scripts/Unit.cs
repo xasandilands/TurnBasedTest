@@ -21,25 +21,25 @@ public class Unit : MonoBehaviour
         if (IsGuarding)
         {
             CurHealth -= dmg / 2;
+            IsGuarding = false;
+        }
+        else
+        {
+            CurHealth -= dmg;
         }
 
-        CurHealth -= dmg;
-        
         if (CurHealth <= 0 )
         {
             return true;
         }
-        else
-        {
             return false;
-        }
     }
 
     public bool heal()
     {
         if (CurHealth == MaxHealth)
         {
-            return false;
+            return true;
         }
 
         CurHealth += Healing;
@@ -47,6 +47,6 @@ public class Unit : MonoBehaviour
         {
             CurHealth = MaxHealth;
         }
-        return true;
+        return false;
     }
 }
