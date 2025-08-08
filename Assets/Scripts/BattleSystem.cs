@@ -131,7 +131,7 @@ public class BattleSystem : MonoBehaviour
     void EnemyTurn()
     {
 
-        if(PlayerU.CurHealth > PlayerU.MaxHealth/2 || EnemyU.CurHealth > EnemyU.MaxHealth/2)
+        if(PlayerU.CurHealth > PlayerU.MaxHealth/3 || EnemyU.CurHealth > EnemyU.MaxHealth/2)
         {
             StartCoroutine(EnemyAttack());
         }
