@@ -30,6 +30,7 @@ public class Unit : MonoBehaviour
 
         if (CurHealth <= 0 )
         {
+            CurHealth = 0;
             return true;
         }
             return false;
