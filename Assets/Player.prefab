@@ -53,6 +53,7 @@ MonoBehaviour:
   Healing: 7
   MaxHealth: 70
   CurHealth: 70
+  IsGuarding: 0
 --- !u!1 &6278766212727743431
 GameObject:
   m_ObjectHideFlags: 0
